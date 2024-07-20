@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-function GuessInput() {
+function GuessInput({ addGuess }) {
   const [guess, setGuess] = useState("")
   const [errorMsg, setErrorMsg] = useState("")
 
@@ -16,6 +16,7 @@ function GuessInput() {
     if (!guess.length || guess.length !== 5) return
 
     console.log({ guess })
+    addGuess(guess)
     setGuess("")
   }
 
