@@ -1,11 +1,14 @@
+import { checkGuess } from "@/helpers"
 import { range } from "@/utils"
 
-function Guess({ guess }) {
+function Guess({ value, answer }) {
+  const checkedValues = checkGuess(value, answer)
+
   return (
     <p className="guess">
       {range(5).map(i => (
-        <span key={i} className="cell">
-          {guess?.[i]}
+        <span key={i} className={`cell ${checkedValues?.[i].status}`}>
+          {value?.[i]}
         </span>
       ))}
     </p>
