@@ -230,3 +230,18 @@ h1 {
     transform: translateY(0%);
   }
 }
+
+/* Button */
+.btn--reset {
+  width: 100%;
+  background: hsl(40, 90%, 35%);
+  height: 3rem;
+  padding: 0 1rem;
+  border-radius: 0.5rem;
+  text-align: center;
+
+  &:hover {
+    color: white;
+    background: hsl(40, 80%, 25%);
+  }
+}

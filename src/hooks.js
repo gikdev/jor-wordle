@@ -15,7 +15,7 @@ function useGuessList(initialValue = []) {
     [guesses],
   )
 
-  return { guesses, addGuess }
+  return { guesses, addGuess, setGuesses }
 }
 
 function useBanner() {

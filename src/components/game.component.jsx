@@ -3,22 +3,23 @@ import { NUM_OF_GUESSES_ALLOWED } from "@/constants"
 import { WORDS } from "@/data"
 import { useBanner, useGuessList } from "@/hooks"
 import { sample } from "@/utils"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
-const answer = sample(WORDS)
-console.log({ answer })
+const randomWord = sample(WORDS)
 
 function Game() {
+  const answerRef = useRef(randomWord)
   const [isEnded, setIsEnded] = useState(false)
-  const { guesses, addGuess } = useGuessList([])
+  const { guesses, addGuess, setGuesses } = useGuessList([])
   const { theme, isOpen, setIsOpen, setTheme, THEMES } = useBanner()
+  console.log({ answer: answerRef.current })
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     let winningStatus = null
 
     for (const guess of guesses) {
-      const isCorrect = guess === answer
+      const isCorrect = guess === answerRef.current
       const hasChances = guesses.length < NUM_OF_GUESSES_ALLOWED
 
       if (isCorrect) winningStatus = "won"
@@ -44,11 +45,24 @@ function Game() {
     }
   }, [guesses])
 
+  function restart() {
+    setGuesses([])
+    setIsEnded(false)
+    setIsOpen(false)
+    setTheme(THEMES.DEFAULT)
+    answerRef.current = sample(WORDS)
+  }
+
   return (
     <>
-      <GuessList answer={answer} guesses={guesses} />
+      <GuessList answer={answerRef.current} guesses={guesses} />
+      {isEnded && (
+        <button onClick={restart} type="button" className="btn btn--reset">
+          Restart Game
+        </button>
+      )}
       <GuessInput addGuess={addGuess} enabled={!isEnded} />
-      {isOpen && <Banner answer={answer} guessesLength={guesses.length} theme={theme} />}
+      {isOpen && <Banner answer={answerRef.current} guessesLength={guesses.length} theme={theme} />}
     </>
   )
 }
