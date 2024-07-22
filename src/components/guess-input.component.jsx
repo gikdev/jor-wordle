@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-function GuessInput({ addGuess }) {
+function GuessInput({ addGuess, enabled }) {
   const [guess, setGuess] = useState("")
   const [errorMsg, setErrorMsg] = useState("")
 
@@ -26,6 +26,7 @@ function GuessInput({ addGuess }) {
       <input
         id="guess-input"
         maxLength={5}
+        disabled={!enabled}
         onChange={handleInput}
         pattern="[A-Za-z]{5}"
         type="text"
